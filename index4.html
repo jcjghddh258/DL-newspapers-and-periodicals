@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!DOCTYPE html>
+<div align="center">
+  <h1>抽奖</h1>
+</div>
+</head>
+<body>
+    <h1></h1>
+    
+    <h2>奖池内容</h2>
+    <ul>
+        <li>徽章 (概率:0.064%) x 10</li>
+        <li>谢谢参与 (概率:0.94%) x 90</li>
+    </ul>
+
+    <button onclick="draw()">抽奖</button>
+
+    <h2>抽奖结果</h2>
+    <div id="result-list">
+        <!-- 抽奖结果将在此显示 -->
+    </div>
+
+    <h2>徽章个数</h2>
+    <div id="badge-count">
+        <!-- 徽章个数将在此显示 -->
+    </div>
+
+    <h2>分页</h2>
+    <div id="pagination">
+        <!-- 分页按钮将在此显示 -->
+    </div>
+
+    <button onclick="deleteResults()">删除抽奖记录</button>
+
+    <script>
+        // 初始化抽奖次数
+        let remainingAttempts = 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999;
+
+        // 奖池内容
+        const prizes = [
+            { name: '徽章', probability: 0.064 },
+            { name: '谢谢参与', probability: 0.94 }
+        ];
+
+        // 抽奖结果列表
+        let resultList = JSON.parse(localStorage.getItem('resultList')) || [];
+        let badgeCount = JSON.parse(localStorage.getItem('badgeCount')) || 0;
+
+        // 抽奖函数
+        function draw() {
+            if (remainingAttempts > 0) {
+                remainingAttempts--;
+
+                // 随机选择奖项
+                let random = Math.random();
+                let cumulativeProbability = 0;
+                let selectedPrize = null;
+
+                for (const prize of prizes) {
+                    cumulativeProbability += prize.probability;
+                    if (random <= cumulativeProbability) {
+                        selectedPrize = prize;
+                        break;
+                    }
+                }
+
+                // 记录抽奖结果
+                resultList.push(selectedPrize.name);
+                if (selectedPrize.name === '徽章') {
+                    badgeCount++;
+                }
+
+                // 更新本地存储
+                localStorage.setItem('resultList', JSON.stringify(resultList));
+                localStorage.setItem('badgeCount', JSON.stringify(badgeCount));
+
+                // 更新页面显示
+                displayResults();
+                displayBadgeCount();
+                displayPagination();
+            } else {
+                alert('今天的抽奖次数已用完！');
+            }
+        }
+
+        // 删除抽奖记录
+        function deleteResults() {
+            localStorage.removeItem('resultList');
+            localStorage.removeItem('badgeCount');
+            resultList = [];
+            badgeCount = 0;
+            displayResults();
+            displayBadgeCount();
+            displayPagination();
+        }
+
+        // 显示抽奖结果
+        function displayResults() {
+            const resultListElement = document.getElementById('result-list');
+            resultListElement.innerHTML = '';
+            resultList.forEach((prize, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `抽奖结果 ${index + 1}: ${prize}`;
+                resultListElement.appendChild(listItem);
+            });
+        }
+
+        // 显示徽章个数
+        function displayBadgeCount() {
+            const badgeCountElement = document.getElementById('badge-count');
+            badgeCountElement.textContent = `徽章个数: ${badgeCount}`;
+        }
+
+        // 显示分页
+        function displayPagination() {
+            const paginationElement = document.getElementById('pagination');
+            paginationElement.innerHTML = '';
+
+            const numPages = Math.ceil(resultList.length / 20);
+            for (let i = 0; i < numPages; i++) {
+                const button = document.createElement('button');
+                button.textContent = `第 ${i + 1} 页`;
+                button.addEventListener('click', () => {
+                    displayPage(i);
+                });
+                paginationElement.appendChild(button);
+            }
+        }
+
+        // 显示特定页码的抽奖结果
+        function displayPage(pageNumber) {
+            const resultListElement = document.getElementById('result-list');
+            resultListElement.innerHTML = '';
+
+            const startIndex = pageNumber * 20;
+            const endIndex = Math.min(startIndex + 20, resultList.length);
+            for (let i = startIndex; i < endIndex; i++) {
+                const listItem = document.createElement('li');
+                listItem.textContent = `抽奖结果 ${i + 1}: ${resultList[i]}`;
+                resultListElement.appendChild(listItem);
+            }
+        }
+
+        // 初始化页面显示
+        displayResults();
+        displayBadgeCount();
+        displayPagination();
+    </script>
+</body>
+</html>
+<br>
+<br>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跳转到 index 页面示例</title>
+</head>
+<body>
+    <button id="btn1" onclick="jumpToIndex1()">返回</button>
+    
+    <script>
+        function jumpToIndex1() {
+            window.location.href = 'index7.html';
+        }
+
+        function jumpToIndex2() {
+            window.location.href = 'index7.html';
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999; /* 确保雪花在所有元素之上 */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snowCanvas"></canvas>
+
+    <script>
+        class Snowflake {
+            constructor(x, y, speed, size) {
+                this.x = x || Math.random() * window.innerWidth;
+                this.y = y || -Math.random() * 1000; // 雪花从顶部外开始
+                this.speed = speed || (Math.random() / 4 + 1); // 雪花下落速度
+                this.size = size || (Math.random() * 1 + 2); // 调整此处使得雪花稍微大一些
+                this.rotation = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > window.innerHeight) {
+                    this.y = -100;
+                    this.x = Math.random() * window.innerWidth;
+                }
+            }
+
+            draw(context) {
+                context.save();
+                context.translate(this.x, this.y);
+                context.rotate(this.rotation);
+                context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                context.beginPath();
+                context.arc(0, 0, this.size, 0, Math.PI * 2);
+                context.closePath();
+                context.fill();
+                context.restore();
+            }
+        }
+
+        function initSnowfall() {
+            const canvas = document.getElementById('snowCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const snowflakes = [];
+            for (let i = 0; i < 100; i++) { // 根据需要调整雪花数量
+                snowflakes.push(new Snowflake());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                snowflakes.forEach(snowflake => {
+                    snowflake.update();
+                    snowflake.draw(ctx);
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        window.addEventListener('load', initSnowfall);
+    </script>
+</body>
+</html>

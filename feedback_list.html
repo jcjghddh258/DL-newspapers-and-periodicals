@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反馈列表</title>
+</head>
+<body>
+    <h1>反馈列表：</h1>
+
+<ul id="messageList"></ul>
+
+<script>
+    const messageList = document.getElementById('messageList');
+
+    // 从localStorage获取反馈内容列表
+    const messages = JSON.parse(localStorage.getItem('feedbackMessages')) || [];
+
+    // 将反馈内容列表渲染到页面上
+    messages.forEach(message => {
+        const li = document.createElement('li');
+        li.innerHTML = `反馈内容：${message}`;
+        messageList.appendChild(li);
+    });
+</script>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<div align="center">
+  <h1>更多</h1>
+</div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更多</title>
+</head>
+<body>
+    <button id="btn1" onclick="jumpToIndex1()">试试手气</button>
+    <button id="btn2" onclick="jumpToIndex2()">意见反馈</button>
+
+    <script>
+        function jumpToIndex1() {
+            window.location.href = 'index4.html';
+        }
+
+        function jumpToIndex2() {
+            window.location.href = 'feedback_form.html';
+        }
+        
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跳转</title>
+</head>
+<body>
+    <button id="btn3" onclick="jumpToIndex3()">邮箱</button>
+    <button id="btn4" onclick="jumpToIndex4()">小游戏列表</button>
+    <button id="btn4" onclick="jumpToIndex5()">返回</button>
+        <script>
+        function jumpToIndex3() {
+            window.location.href = 'index2.html';
+        }
+
+        function jumpToIndex4() {
+            window.location.href = 'index9.html';
+        }
+        
+        function jumpToIndex5() {
+            window.location.href = 'index7.html';
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>点击跳转示例</title>
+</head>
+<body>
+
+<p>点击下面的文字跳转到指定网站：</p>
+<a href="https://www.tboxn.com/sitetag/windows">[跳转到网站导航]</a>
+<br>
+<a href="https://4kwallpapers.com/">[跳转到壁纸网站(1)]</a>
+<br>
+<a href="https://mbizhi.cheetahfun.com/sj/c2d/p2">[跳转到壁纸网站(2)]</a>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999; /* 确保雪花在所有元素之上 */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snowCanvas"></canvas>
+
+    <script>
+        class Snowflake {
+            constructor(x, y, speed, size) {
+                this.x = x || Math.random() * window.innerWidth;
+                this.y = y || -Math.random() * 1000; // 雪花从顶部外开始
+                this.speed = speed || (Math.random() / 4 + 1); // 雪花下落速度
+                this.size = size || (Math.random() * 1 + 2); // 调整此处使得雪花稍微大一些
+                this.rotation = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > window.innerHeight) {
+                    this.y = -100;
+                    this.x = Math.random() * window.innerWidth;
+                }
+            }
+
+            draw(context) {
+                context.save();
+                context.translate(this.x, this.y);
+                context.rotate(this.rotation);
+                context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                context.beginPath();
+                context.arc(0, 0, this.size, 0, Math.PI * 2);
+                context.closePath();
+                context.fill();
+                context.restore();
+            }
+        }
+
+        function initSnowfall() {
+            const canvas = document.getElementById('snowCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const snowflakes = [];
+            for (let i = 0; i < 100; i++) { // 根据需要调整雪花数量
+                snowflakes.push(new Snowflake());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                snowflakes.forEach(snowflake => {
+                    snowflake.update();
+                    snowflake.draw(ctx);
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        window.addEventListener('load', initSnowfall);
+    </script>
+</body>
+</html>

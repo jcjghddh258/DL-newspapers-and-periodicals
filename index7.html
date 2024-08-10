@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<div align="center">
+  <h1>DL报刊(1.9.11)</h1>
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日一言</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- 引入axios库，用于发起HTTP请求 -->
+</head>
+<body>
+    <div id="dailyQuote">
+        <p>每日亿言：加载中...</p>
+    </div>
+
+    <script>
+        // 使用axios发送HTTP请求获取每日一言
+        axios.get('https://v1.hitokoto.cn')
+            .then(function (response) {
+                var quote = response.data.hitokoto; // 从API响应中获取每日一言内容
+                var author = response.data.from; // 获取引用来源（可选）
+
+                var dailyQuoteElement = document.getElementById('dailyQuote');
+                dailyQuoteElement.innerHTML = '<p>每日亿言：' + quote + '</p>';
+                if (author) {
+                    dailyQuoteElement.innerHTML += '<p>——' + author + '</p>';
+                }
+            })
+            .catch(function (error) {
+                console.log(error); // 输出错误信息到控制台
+            });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DL报刊(1.9.11)</title>
+<style>
+    /* 简单的样式 */
+    .post {
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+    .post img {
+        max-width: 100%;
+    }
+</style>
+</head>
+<body>
+    <div id="app">
+        <h1></h1>
+        <textarea id="postContent" placeholder="输入帖子内容（不为空）"></textarea><br>
+        <br>
+      附件发送区:<br>
+        <input type="file" id="fileInput"><br>
+        <br>
+        <button onclick="submitPost()">发帖</button><br><br>
+        <div id="posts"></div>
+        <div id="pagination"></div>
+    </div>
+
+    <script>
+        // 模拟帖子数据
+        let posts = JSON.parse(localStorage.getItem('posts')) || [];
+
+        function renderPosts() {
+            const postsDiv = document.getElementById('posts');
+            postsDiv.innerHTML = '';
+
+            // 分页
+            const itemsPerPage = 20;
+            const totalPages = Math.ceil(posts.length / itemsPerPage);
+            let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
+
+            for (let i = (currentPage - 1) * itemsPerPage; i < currentPage * itemsPerPage && i < posts.length; i++) {
+                const post = posts[i];
+                const postElement = document.createElement('div');
+                postElement.classList.add('post');
+                postElement.innerHTML = `<p>${post.content}</p>`;
+                if (post.image) {
+                    postElement.innerHTML += `<img src="${post.image}" alt="Post Image">`;
+                }
+                if (post.video) {
+                    postElement.innerHTML += `<video controls><source src="${post.video}" type="video/mp4"></video>`;
+                }
+                postElement.innerHTML += `<button onclick="likePost(${i})">${post.likes} 👍</button>`;
+                postElement.innerHTML += `<button onclick="deletePost(${i})">删除</button>`;
+                postElement.innerHTML += `<hr>`;
+                if (post.comments && post.comments.length > 0) {
+                    post.comments.forEach(comment => {
+                        postElement.innerHTML += `<p><strong>${comment.user}</strong>: ${comment.text}</p>`;
+                    });
+                }
+                postElement.innerHTML += `<textarea id="commentInput${i}" placeholder="评论"></textarea><br>`;
+                postElement.innerHTML += `<button onclick="submitComment(${i})">评论</button>`;
+                postsDiv.appendChild(postElement);
+            }
+
+            // 分页控件
+            const paginationDiv = document.getElementById('pagination');
+            paginationDiv.innerHTML = `当前页码: ${currentPage}/${totalPages}`;
+
+            if (totalPages > 1) {
+                paginationDiv.innerHTML += `<br><input type="number" id="pageInput" min="1" max="${totalPages}" placeholder="跳转页码">`;
+                paginationDiv.innerHTML += `<button onclick="goToPage()">跳转</button>`;
+            }
+        }
+
+        function submitPost() {
+            const postContent = document.getElementById('postContent').value.trim();
+            if (postContent === '') {
+                alert('帖子内容不能为空');
+                return;
+            }
+
+            const fileInput = document.getElementById('fileInput');
+            let image = null;
+            let video = null;
+
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                if (file.type.startsWith('image')) {
+                    image = URL.createObjectURL(file);
+                } else if (file.type.startsWith('video')) {
+                    video = URL.createObjectURL(file);
+                }
+            }
+
+            const newPost = {
+                content: postContent,
+                image: image,
+                video: video,
+                likes: 0,
+                comments: []
+            };
+
+            posts.push(newPost);
+            localStorage.setItem('posts', JSON.stringify(posts));
+            localStorage.setItem('currentPage', Math.ceil(posts.length / 20)); // 更新当前页
+
+            document.getElementById('postContent').value = ''; // 清空输入框
+            renderPosts();
+        }
+
+        function likePost(index) {
+            const post = posts[index];
+            if (!post.liked) {
+                post.likes++;
+                post.liked = true;
+            } else {
+                post.likes--;
+                post.liked = false;
+            }
+            localStorage.setItem('posts', JSON.stringify(posts));
+            renderPosts();
+        }
+
+        function submitComment(index) {
+            const commentInput = document.getElementById(`commentInput${index}`);
+            const commentText = commentInput.value.trim();
+            if (commentText === '') {
+                alert('评论内容不能为空');
+                return;
+            }
+
+            const post = posts[index];
+            const newComment = {
+                user: '某用户', // 在实际应用中需要替换成实际用户名或者获取当前登录用户
+                text: commentText
+            };
+            post.comments.push(newComment);
+            localStorage.setItem('posts', JSON.stringify(posts));
+            renderPosts();
+        }
+
+        function deletePost(index) {
+            if (confirm('确认删除这篇帖子吗？')) {
+                posts.splice(index, 1);
+                localStorage.setItem('posts', JSON.stringify(posts));
+                renderPosts();
+            }
+        }
+
+        function goToPage() {
+            const pageInput = document.getElementById('pageInput').value;
+            const pageNumber = parseInt(pageInput);
+            if (pageNumber >= 1 && pageNumber <= Math.ceil(posts.length / 20)) {
+                localStorage.setItem('currentPage', pageNumber);
+                renderPosts();
+            } else {
+                alert('请输入有效的页码');
+            }
+        }
+
+        // 初始渲染
+        renderPosts();
+    </script>
+</body>
+</html>
+<br>
+<br><li>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跳转</title>
+</head>
+<body>
+    <button id="btn3" onclick="jumpToIndex3()">更多</button>
+
+    <script>
+        function jumpToIndex3() {
+            window.location.href = 'index3.html';
+        }
+
+        function jumpToIndex4() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
+<br>
+<br><li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>点击复制内容至粘贴板示例</title>
+</head>
+<body>
+
+<!-- 点击这个链接后将复制指定内容到剪贴板 -->
+<a id="copyLink" href="#">[举报曝光]</a>
+
+<script>
+document.getElementById("copyLink").addEventListener("click", function() {
+  // 要复制到剪贴板的文字内容
+  var textToCopy = "http://192.168.1.6:8080";
+
+  // 创建一个临时的textarea元素来放置要复制的文字内容
+  var tempInput = document.createElement("textarea");
+  tempInput.value = textToCopy;
+  document.body.appendChild(tempInput);
+
+  // 选中临时textarea中的文本内容
+  tempInput.select();
+  
+  // 复制选中的文本内容到剪贴板
+  document.execCommand("copy");
+  
+  // 移除临时的textarea元素
+  document.body.removeChild(tempInput);
+  
+  // 可选：提示用户已复制成功
+  alert("已复制内容到剪贴板，那么劳驾就帮我曝光啦| ू•ૅω•́)ᵎᵎᵎ");
+});
+</script>
+
+</body>
+</html>
+<br>
+<br><li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>点击切换页面示例</title>
+</head>
+<body>
+
+<!-- 点击这个链接后将跳转到index1.html页面 -->
+<a id="changePage" href="#">[切换到旧版]</a>
+
+<script>
+document.getElementById("changePage").addEventListener("click", function() {
+  // 要跳转的页面文件名
+  var nextPage = "index5.html";
+  
+  // 执行页面重定向
+  window.location.href = nextPage;
+});
+</script>
+
+</body>
+</html>
+<br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiple Hyperlinks Example</title>
+</head>
+<body>
+  <ul>
+<li><a href="index10.html">[切换到帖子分组区页面]</a></li>
+  </ul>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>点击屏幕播放音频</title>
+<style>
+  /* 为整个页面设置全屏样式，以便点击任何地方都可以触发播放 */
+  html, body {
+    height: 100%;
+    margin: 0; 
+  }
+</style>
+<script>
+  // 在页面加载完成时设置点击事件监听
+  window.addEventListener('load', function() {
+    document.body.addEventListener('click', function() {
+      var audio = new Audio('file://storage/emulated/0/Download/MicrosoftEdgeDropFiles/Default/c35bf2af739244f79298396c16ccbedc%20(online-audio-converter.com).wav'); // 将 'HPPS' 替换为你的音频文件路径
+      audio.play();
+      document.body.removeEventListener('click', arguments.callee); // 移除点击事件监听，确保只触发一次
+    });
+  });
+</script>
+</head>
+<body>
+<!-- 这里不需要显示任何音频播放器 -->
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999; /* 确保雪花在所有元素之上 */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snowCanvas"></canvas>
+
+    <script>
+        class Snowflake {
+            constructor(x, y, speed, size) {
+                this.x = x || Math.random() * window.innerWidth;
+                this.y = y || -Math.random() * 1000; // 雪花从顶部外开始
+                this.speed = speed || (Math.random() / 4 + 1); // 雪花下落速度
+                this.size = size || (Math.random() * 1 + 2); // 调整此处使得雪花稍微大一些
+                this.rotation = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > window.innerHeight) {
+                    this.y = -100;
+                    this.x = Math.random() * window.innerWidth;
+                }
+            }
+
+            draw(context) {
+                context.save();
+                context.translate(this.x, this.y);
+                context.rotate(this.rotation);
+                context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                context.beginPath();
+                context.arc(0, 0, this.size, 0, Math.PI * 2);
+                context.closePath();
+                context.fill();
+                context.restore();
+            }
+        }
+
+        function initSnowfall() {
+            const canvas = document.getElementById('snowCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const snowflakes = [];
+            for (let i = 0; i < 100; i++) { // 根据需要调整雪花数量
+                snowflakes.push(new Snowflake());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                snowflakes.forEach(snowflake => {
+                    snowflake.update();
+                    snowflake.draw(ctx);
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        window.addEventListener('load', initSnowfall);
+    </script>
+</body>
+</html>

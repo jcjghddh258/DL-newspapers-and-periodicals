@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>意见反馈表单</title>
+</head>
+<body>
+    <h1>请留下您的宝贵意见：</h1>
+    <form id="messageForm">
+        <label for="message">内容：</label>
+        <input type="text" id="message" name="message">
+        <button type="submit">反馈</button>
+    </form>
+
+    <iframe id="messageListFrame" src="feedback_list.html" style="display: none;"></iframe>
+
+<script>
+    const messageForm = document.getElementById('messageForm');
+    const messageListFrame = document.getElementById('messageListFrame');
+    const messageInput = document.getElementById('message');
+
+    messageForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const message = messageInput.value;
+
+        let messages = JSON.parse(localStorage.getItem('feedbackMessages')) || [];
+        messages.push(message);
+        localStorage.setItem('feedbackMessages', JSON.stringify(messages));
+
+        // 清空输入框并显示成功反馈
+        messageInput.value = '';
+        alert('感谢您的反馈！您的意见已经记录。');
+
+        // 刷新iframe中的反馈内容列表
+        messageListFrame.src = 'feedback_list.html';
+    });
+</script>
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跳转到 index 页面示例</title>
+</head>
+<body>
+    <button id="btn1" onclick="jumpToIndex1()">返回</button>
+    <button id="btn2" onclick="jumpToIndex2()">表单(开发者可进)</button>
+
+    <script>
+        function jumpToIndex1() {
+            window.location.href = 'index7.html';
+        }
+
+        function jumpToIndex2() {
+            window.location.href = 'index7.html';
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999; /* 确保雪花在所有元素之上 */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snowCanvas"></canvas>
+
+    <script>
+        class Snowflake {
+            constructor(x, y, speed, size) {
+                this.x = x || Math.random() * window.innerWidth;
+                this.y = y || -Math.random() * 1000; // 雪花从顶部外开始
+                this.speed = speed || (Math.random() / 4 + 1); // 雪花下落速度
+                this.size = size || (Math.random() * 1 + 2); // 调整此处使得雪花稍微大一些
+                this.rotation = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > window.innerHeight) {
+                    this.y = -100;
+                    this.x = Math.random() * window.innerWidth;
+                }
+            }
+
+            draw(context) {
+                context.save();
+                context.translate(this.x, this.y);
+                context.rotate(this.rotation);
+                context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                context.beginPath();
+                context.arc(0, 0, this.size, 0, Math.PI * 2);
+                context.closePath();
+                context.fill();
+                context.restore();
+            }
+        }
+
+        function initSnowfall() {
+            const canvas = document.getElementById('snowCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const snowflakes = [];
+            for (let i = 0; i < 100; i++) { // 根据需要调整雪花数量
+                snowflakes.push(new Snowflake());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                snowflakes.forEach(snowflake => {
+                    snowflake.update();
+                    snowflake.draw(ctx);
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        window.addEventListener('load', initSnowfall);
+    </script>
+</body>
+</html>

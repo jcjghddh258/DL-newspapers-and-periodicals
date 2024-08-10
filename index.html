@@ -1,0 +1,216 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<head>
+<title>登录</title>
+<style>
+input{
+font-size:25px;
+color:#808080;
+}
+</style>
+<input type="text"id="demo11"value='请输入用户名'/>
+<input type="text"id="demo12"value='请输入密码'/>
+<button type="button" onclick="login()"><big><big><big><big>登录</button>
+
+<script>
+var W = document.getElementById("demo11");
+var E = document.getElementById("demo12");
+W.onfocus = function(){
+if(W.value == '请输入用户名'){
+    W.value = '';
+    this.style.color = "#333";
+               }
+}
+W.onblur = function(){
+if(W.value == ''){
+    W.value = '请输入用户名';
+   this.style.color = "#808080";
+ } 
+                }
+E.onfocus = function(){
+if(E.value = '请输入密码'){
+    E.type = "password";
+    E.value = '';
+    this.style.color = "#333";
+               }
+}
+E.onblur = function(){
+if(E.value == ''){
+    E.type = "text";
+    E.value = '请输入密码';
+   this.style.color = "#808080";
+ } 
+                }
+function login(){
+if(W.value == "a" && E.value == "123"){
+alert("登录成功");
+window.location.href="index7.html";
+}else if(W.value == " " && E.value == " "){
+alert("您还没有输入")
+ }else{
+alert("登录失败");
+}
+}
+</script>
+<p>
+a<br />123
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999; /* 确保雪花在所有元素之上 */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snowCanvas"></canvas>
+
+    <script>
+        class Snowflake {
+            constructor(x, y, speed, size) {
+                this.x = x || Math.random() * window.innerWidth;
+                this.y = y || -Math.random() * 1000; // 雪花从顶部外开始
+                this.speed = speed || (Math.random() / 4 + 1); // 雪花下落速度
+                this.size = size || (Math.random() * 1 + 2); // 调整此处使得雪花稍微大一些
+                this.rotation = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > window.innerHeight) {
+                    this.y = -100;
+                    this.x = Math.random() * window.innerWidth;
+                }
+            }
+
+            draw(context) {
+                context.save();
+                context.translate(this.x, this.y);
+                context.rotate(this.rotation);
+                context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                context.beginPath();
+                context.arc(0, 0, this.size, 0, Math.PI * 2);
+                context.closePath();
+                context.fill();
+                context.restore();
+            }
+        }
+
+        function initSnowfall() {
+            const canvas = document.getElementById('snowCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const snowflakes = [];
+            for (let i = 0; i < 100; i++) { // 根据需要调整雪花数量
+                snowflakes.push(new Snowflake());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                snowflakes.forEach(snowflake => {
+                    snowflake.update();
+                    snowflake.draw(ctx);
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        window.addEventListener('load', initSnowfall);
+    </script>
+</body>
+</html>
+  <br>
+  <br>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>跳转到文章页面</title>
+</head>
+<body>
+    <a href="index8.html">[注意事项]</a>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>鸣谢(均为QQ名):</title>
+  <style>
+    #userMessage {
+      font-size: 16px; /* 调整字体大小 */
+      font-weight: bold; /* 将字体调粗 */
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1></h1>
+  </div>
+
+  <div>
+    <text>鸣谢(均为QQ名):</text>
+    <pre id="userMessage"></pre>
+  </div>
+
+  <script>
+    function displayText(text) {
+      var userMessage = document.getElementById('userMessage');
+      userMessage.innerHTML = text.replace(/\n/g, "<br>");
+    }
+    var userText = `@虚空神-大飞蛾(提供技术支持)
+@【无法显示！】(提供工具支持)`;
+    displayText(userText);
+  </script>
+</body>
+</html>
+  </script>
+</body>
+</html>
+<br>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义文字坐标示例</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #f1f1f1;
+        }
+
+        .text-container {
+            position: absolute;
+            left: 75px;
+            top: 500px;
+            width: 200px;
+            height: 140px;
+            background-color: #5CAF50;
+            text-align: center;
+            line-height: 35px;
+            font-size: 25px;
+            color:Blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-container">
+        本网站基于hppro&本机服务器构建
+           不稳定是正常现象！
+    </div>
+</body>
+</html>

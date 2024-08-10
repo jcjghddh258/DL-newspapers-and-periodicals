@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<div align="center">
+  <h1>小游戏列表</h1>
+</div>
+<a href="https://www.extrabux.cn/go/Zi7TrwAb9ACrCKBXb3sVPhCQXMPr0qaRf97b3UGuUtk%3D?ec=2">小游戏1</a>
+<br>
+<a href="https://www.extrabux.cn/go/SDPhgORQkKTxyk1fmb4I9IWegf7MvoDwW9VhFNmN6GU%3D?ec=2">小游戏2</a>
+<br>
+<a href="https://www.extrabux.cn/go/m887AFchPr0WZADY8YHc2phTOrRs0e6wweSsHZ78PTE%3D?ec=2">小游戏3</a>
+<br>
+<a href="https://www.extrabux.cn/go/0TlRRFYKWpUg5QKNuRUgzHerAJtQhCY10Hu%2BQIFdjnk%3D?ec=2">小游戏4</a>
+<br>
+<a href="https://www.extrabux.cn/go/dNzsYqN6ThDEDlUZG9nrf8cXp4IDJQ3SvrwcCWxHZWY%3D?ec=2">小游戏5</a>
+<br>
+<a href="https://www.extrabux.cn/go/cCpvk05rNXdNmpE1YTJh6%2FcIErs8nPapJzMeDXxzAQ4%3D?ec=2">小游戏6</a>
+<br>
+<a href="https://www.extrabux.cn/go/8TLmgROqi5hLgHEMKlyMymx4nFyCH%2By7I%2F7FvY5gB9U%3D?ec=2">小游戏7</a>
+<br>
+<a href="https://www.extrabux.cn/go/IgHJ6kdukkWb803uC2zOUHOZaYR2Ybq3ZE3QI7bqgH0%3D?ec=2">小游戏8</a>
+<br>
+<a href="https://www.extrabux.cn/go/u%2FAUiW837XMIRNzRobY%2FTnHiyalZ%2FOAwdGJThjHjrIU%3D?ec=2">小游戏9</a>
+<br>
+<a href="https://www.extrabux.cn/go/95PC9MtvQg%2BxeWLghAITaOFuGOCRUM6dCLjXRa1Mgq0%3D?ec=2">小游戏10</a>
+<br>
+<a href="https://www.extrabux.cn/go/95PC9MtvQg%2BxeWLghAITaOFuGOCRUM6dCLjXRa1Mgq0%3D?ec=2">小游戏11</a>
+<br>
+<a href="https://www.extrabux.cn/go/2RDD8EsOBK3JRmWy0tp4umMC%2Fw1WtFlZwT1wsnHGrbU%3D?ec=2">小游戏12</a>
+<br>
+<a href="https://www.extrabux.cn/go/m%2Fbbk3SW%2B7A8FToS81yW%2FWrMZRGzF2F3qF4aCSlh6gA%3D?ec=2">小游戏13</a>
+<br>
+<a href="https://www.extrabux.cn/go/2RDD8EsOBK3JRmWy0tp4umMC%2Fw1WtFlZwT1wsnHGrbU%3D?ec=2">小游戏14</a>
+<br>
+<a href="https://www.extrabux.cn/go/Ul7PZcuu%2FVbiK4ICD6JzzYZjeFEX7H4fFRAYYSyafk4%3D?ec=2">小游戏15</a>
+<br>
+<a href="https://www.extrabux.cn/go/vVur4mEEtUH1%2B18uT9cif5x%2BrfeEgD0UrIkhyH3oKSs%3D?ec=2">小游戏16</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999; /* 确保雪花在所有元素之上 */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snowCanvas"></canvas>
+
+    <script>
+        class Snowflake {
+            constructor(x, y, speed, size) {
+                this.x = x || Math.random() * window.innerWidth;
+                this.y = y || -Math.random() * 1000; // 雪花从顶部外开始
+                this.speed = speed || (Math.random() / 4 + 1); // 雪花下落速度
+                this.size = size || (Math.random() * 1 + 2); // 调整此处使得雪花稍微大一些
+                this.rotation = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > window.innerHeight) {
+                    this.y = -100;
+                    this.x = Math.random() * window.innerWidth;
+                }
+            }
+
+            draw(context) {
+                context.save();
+                context.translate(this.x, this.y);
+                context.rotate(this.rotation);
+                context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                context.beginPath();
+                context.arc(0, 0, this.size, 0, Math.PI * 2);
+                context.closePath();
+                context.fill();
+                context.restore();
+            }
+        }
+
+        function initSnowfall() {
+            const canvas = document.getElementById('snowCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const snowflakes = [];
+            for (let i = 0; i < 100; i++) { // 根据需要调整雪花数量
+                snowflakes.push(new Snowflake());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                snowflakes.forEach(snowflake => {
+                    snowflake.update();
+                    snowflake.draw(ctx);
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        window.addEventListener('load', initSnowfall);
+    </script>
+</body>
+</html>

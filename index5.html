@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<div align="center">
+  <h1>DL报刊(1.9.11)</h1>
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DL报刊(1.9.11)</title>
+<style>
+  .message-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .message {
+    position: relative;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    background-color: #ff9999;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  .message-content {
+    margin-bottom: 10px;
+  }
+  .message-content img {
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+  .pagination {
+    text-align: center;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="message-container" id="messageContainer"></div>
+<div class="pagination" id="pagination"></div>
+<div class="page-info" id="pageInfo"></div>
+
+<div>
+  <textarea id="messageInput" placeholder="在此输入消息"></textarea>
+  <br>
+图片发送区: <input type="file" id="imageInput" accept="image/*" multiple>
+  <br>
+  <br>
+视频发送区: <input type="file" id="videoInput" accept="video/*" multiple>
+  <button onclick="sendMessage()">发送消息</button>
+  <br>
+  <br>
+  <button onclick="deleteAllMessages()">删除全部消息</button>
+</div>
+
+<script>
+  const messagesPerPage = 5;
+  let currentPage = 1;
+  let messages = [];
+
+  function sendMessage() {
+    const messageInput = document.getElementById('messageInput');
+    const imageInput = document.getElementById('imageInput');
+    const videoInput = document.getElementById('videoInput');
+    const message = messageInput.value.trim();
+    const images = Array.from(imageInput.files);
+    const videos = Array.from(videoInput.files);
+
+    if (message === '' && images.length === 0 && videos.length === 0) {
+      alert('你无话可说就不要说');
+      return;
+    }
+
+    const messageObj = {
+      message: message,
+      images: [],
+      videos: [],
+      selected: false
+    };
+
+    images.forEach(image => {
+      messageObj.images.push(URL.createObjectURL(image));
+    });
+
+    videos.forEach(video => {
+      messageObj.videos.push(URL.createObjectURL(video));
+    });
+
+    messages.push(messageObj);
+
+    if (messages.length % messagesPerPage === 0) {
+      currentPage++;
+    }
+
+    displayMessages();
+    saveMessages();
+
+    messageInput.value = '';
+    imageInput.value = '';
+    videoInput.value = '';
+  }
+
+  function displayMessages() {
+    const messageContainer = document.getElementById('messageContainer');
+    const pagination = document.getElementById('pagination');
+    const pageInfo = document.getElementById('pageInfo');
+    messageContainer.innerHTML = '';
+    pagination.innerHTML = '';
+
+    const startIndex = (currentPage - 1) * messagesPerPage;
+    const endIndex = startIndex + messagesPerPage;
+    const currentMessages = messages.slice(startIndex, endIndex);
+
+    currentMessages.forEach((msg, index) => {
+      const div = document.createElement('div');
+      div.classList.add('message');
+
+      const messageContent = document.createElement('div');
+      messageContent.classList.add('message-content');
+
+      if (msg.message) {
+        messageContent.innerHTML += `<p>${msg.message}</p>`;
+      }
+
+      if (msg.images.length > 0) {
+        msg.images.forEach(image => {
+          messageContent.innerHTML += `<img src="${image}">`;
+        });
+      }
+
+      if (msg.videos.length > 0) {
+        msg.videos.forEach(video => {
+          messageContent.innerHTML += `<video width="320" height="240" controls><source src="${video}" type="video/mp4"></video>`;
+        });
+      }
+
+      div.appendChild(messageContent);
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.classList.add('delete-btn');
+      deleteBtn.textContent = '删除';
+      deleteBtn.onclick = () => {
+        deleteMessage(index + startIndex);
+      };
+      div.appendChild(deleteBtn);
+
+      messageContainer.appendChild(div);
+    });
+
+    const totalPages = Math.ceil(messages.length / messagesPerPage);
+    for (let i = 1; i <= totalPages; i++) {
+      const button = document.createElement('button');
+      button.textContent = i;
+      button.onclick = () => {
+        currentPage = i;
+        displayMessages();
+      };
+      pagination.appendChild(button);
+    }
+
+    pageInfo.textContent = `当前页面: ${currentPage} / 总页面数: ${totalPages}`;
+    const goToPageInput = document.createElement('input');
+    goToPageInput.type = 'number';
+    goToPageInput.min = 1;
+    goToPageInput.max = totalPages;
+    goToPageInput.placeholder = '跳转到页码';
+    goToPageInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const pageNumber = parseInt(goToPageInput.value);
+        if (pageNumber >= 1 && pageNumber <= totalPages) {
+          currentPage = pageNumber;
+          displayMessages();
+          goToPageInput.value = '';
+        } else {
+          alert('你怎么不跳转到西天去？');
+        }
+      }
+    });
+    pageInfo.appendChild(goToPageInput);
+  }
+
+  function deleteMessage(index) {
+    messages.splice(index, 1);
+    displayMessages();
+    saveMessages();
+  }
+
+  function deleteSelectedMessages() {
+    messages = messages.filter(msg => !msg.selected);
+    currentPage = 1;
+    displayMessages();
+    saveMessages();
+  }
+
+  function deleteAllMessages() {
+    messages = [];
+    currentPage = 1;
+    displayMessages();
+    saveMessages();
+  }
+
+  function saveMessages() {
+    localStorage.setItem('messages', JSON.stringify(messages));
+  }
+
+  function loadMessages() {
+    const savedMessages = localStorage.getItem('messages');
+    if (savedMessages) {
+      messages = JSON.parse(savedMessages);
+      displayMessages();
+    }
+  }
+
+  loadMessages();
+</script>
+
+</body>
+</html>
+<br>
+<li>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跳转</title>
+</head>
+<body>
+    <button id="btn3" onclick="jumpToIndex3()">更多</button>
+
+    <script>
+        function jumpToIndex3() {
+            window.location.href = 'index3.html';
+        }
+
+        function jumpToIndex4() {
+            window.location.href = 'index7.html';
+        }
+    </script>
+</body>
+</html>
+<br>
+<br><li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>点击复制内容至粘贴板示例</title>
+</head>
+<body>
+
+<!-- 点击这个链接后将复制指定内容到剪贴板 -->
+<a id="copyLink" href="#">[举报曝光]</a>
+
+<script>
+document.getElementById("copyLink").addEventListener("click", function() {
+  // 要复制到剪贴板的文字内容
+  var textToCopy = "http://192.168.1.6:8080";
+
+  // 创建一个临时的textarea元素来放置要复制的文字内容
+  var tempInput = document.createElement("textarea");
+  tempInput.value = textToCopy;
+  document.body.appendChild(tempInput);
+
+  // 选中临时textarea中的文本内容
+  tempInput.select();
+  
+  // 复制选中的文本内容到剪贴板
+  document.execCommand("copy");
+  
+  // 移除临时的textarea元素
+  document.body.removeChild(tempInput);
+  
+  // 可选：提示用户已复制成功
+  alert("已复制内容到剪贴板，那么劳驾就帮我曝光啦| ू•ૅω•́)ᵎᵎᵎ");
+});
+</script>
+
+</body>
+</html>
+<br>
+<br><li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>点击切换页面示例</title>
+</head>
+<body>
+
+<!-- 点击这个链接后将跳转到index1.html页面 -->
+<a id="changePage" href="#">[切换到新版]</a>
+
+<script>
+document.getElementById("changePage").addEventListener("click", function() {
+  // 要跳转的页面文件名
+  var nextPage = "index7.html";
+  
+  // 执行页面重定向
+  window.location.href = nextPage;
+});
+</script>
+
+</body>
+</html>
+<br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiple Hyperlinks Example</title>
+</head>
+<body>
+  <ul>
+<li><a href="index10.html">[跳转到帖子分组区页面]</a></li>
+  </ul>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999; /* 确保雪花在所有元素之上 */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snowCanvas"></canvas>
+
+    <script>
+        class Snowflake {
+            constructor(x, y, speed, size) {
+                this.x = x || Math.random() * window.innerWidth;
+                this.y = y || -Math.random() * 1000; // 雪花从顶部外开始
+                this.speed = speed || (Math.random() / 4 + 1); // 雪花下落速度
+                this.size = size || (Math.random() * 1 + 2); // 调整此处使得雪花稍微大一些
+                this.rotation = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > window.innerHeight) {
+                    this.y = -100;
+                    this.x = Math.random() * window.innerWidth;
+                }
+            }
+
+            draw(context) {
+                context.save();
+                context.translate(this.x, this.y);
+                context.rotate(this.rotation);
+                context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                context.beginPath();
+                context.arc(0, 0, this.size, 0, Math.PI * 2);
+                context.closePath();
+                context.fill();
+                context.restore();
+            }
+        }
+
+        function initSnowfall() {
+            const canvas = document.getElementById('snowCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const snowflakes = [];
+            for (let i = 0; i < 100; i++) { // 根据需要调整雪花数量
+                snowflakes.push(new Snowflake());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                snowflakes.forEach(snowflake => {
+                    snowflake.update();
+                    snowflake.draw(ctx);
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        window.addEventListener('load', initSnowfall);
+    </script>
+</body>
+</html>

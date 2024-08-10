@@ -1,0 +1,7 @@
+.main-content img,
+.main-content video {
+  max-width: 50%;
+  height: auto;
+  display: block; /* 确保图片和视频以块级元素显示 */
+  margin-bottom: 8px; /* 可根据需要调整 */
+}
