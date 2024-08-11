@@ -1,3 +1,6 @@
+/* styles.css */
+@import url("dlui2.css");
+/* Your existing styles */
 .main-content img,
 .main-content video {
   max-width: 50%;

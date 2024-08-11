@@ -1,61 +1,37 @@
-<html>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>登录</title>
-<style>
-input{
-font-size:25px;
-color:#808080;
-}
-</style>
-<input type="text"id="demo11"value='请输入用户名'/>
-<input type="text"id="demo12"value='请输入密码'/>
-<button type="button" onclick="login()"><big><big><big><big>登录</button>
-
-<script>
-var W = document.getElementById("demo11");
-var E = document.getElementById("demo12");
-W.onfocus = function(){
-if(W.value == '请输入用户名'){
-    W.value = '';
-    this.style.color = "#333";
-               }
-}
-W.onblur = function(){
-if(W.value == ''){
-    W.value = '请输入用户名';
-   this.style.color = "#808080";
- } 
-                }
-E.onfocus = function(){
-if(E.value = '请输入密码'){
-    E.type = "password";
-    E.value = '';
-    this.style.color = "#333";
-               }
-}
-E.onblur = function(){
-if(E.value == ''){
-    E.type = "text";
-    E.value = '请输入密码';
-   this.style.color = "#808080";
- } 
-                }
-function login(){
-if(W.value == "a" && E.value == "123"){
-alert("登录成功");
-window.location.href="index7.html";
-}else if(W.value == " " && E.value == " "){
-alert("您还没有输入")
- }else{
-alert("登录失败");
-}
-}
-</script>
-<p>
-a<br />123
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="dlul.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-form">
+            <h1>登录</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">登录</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting normally
+            window.location.href = 'index7.html'; // Redirect to index7.html
+        });
+    </script>
 </body>
 </html>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -172,7 +148,8 @@ a<br />123
       userMessage.innerHTML = text.replace(/\n/g, "<br>");
     }
     var userText = `@虚空神-大飞蛾(提供技术支持)
-@【无法显示！】(提供工具支持)`;
+@【无法显示！】(提供工具支持)
+@异心(提供技术帮助)`;
     displayText(userText);
   </script>
 </body>
@@ -190,7 +167,7 @@ a<br />123
     <style>
         body {
             margin: 0;
-            background-color: #f1f1f1;
+            background-color: #f0f0f0;
         }
 
         .text-container {
@@ -203,7 +180,7 @@ a<br />123
             text-align: center;
             line-height: 35px;
             font-size: 25px;
-            color:Blue;
+            color: green;
         }
     </style>
 </head>
