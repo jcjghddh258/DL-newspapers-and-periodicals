@@ -1,9 +1,25 @@
-/* styles.css */
-@import url("dlui2.css");
-/* Your existing styles */
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#postContent {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
 .main-content img,
 .main-content video {
-  max-width: 50%;
+  max-width: 30%;
   height: auto;
   display: block; /* 确保图片和视频以块级元素显示 */
   margin-bottom: 8px; /* 可根据需要调整 */

@@ -41,178 +41,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DL报刊(1.9.13)</title>
 <style>
-    /* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
 }
 
-/* Body Styles */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
-    padding: 20px;
-}
-
-/* Container Styles */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 10px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Headings */
-h1, h2, h3, h4, h5, h6 {
-    margin-bottom: 15px;
-    color: #222;
+#postForm {
+  margin-bottom: 20px;
 }
 
-h1 {
-    font-size: 2.5em;
+#postContent {
+  width: 90%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  margin-bottom: 10px;
 }
 
-h2 {
-    font-size: 2em;
+#postFile {
+  margin-bottom: 10px;
 }
 
-h3 {
-    font-size: 1.75em;
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-h4 {
-    font-size: 1.5em;
+button:hover {
+  background-color: #0056b3;
 }
 
-h5 {
-    font-size: 1.25em;
+.post {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
 }
 
-h6 {
-    font-size: 1em;
+.post img, .post video {
+  max-width: 70%;
+  height: auto;
+  margin-top: 10px;
 }
-
-/* Paragraphs */
-p {
-    margin-bottom: 15px;
-}
-
-/* Links */
-a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-/* Buttons */
-button, .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-
-button:hover, .btn:hover {
-    background-color: #0056b3;
-}
-
-/* Form Elements */
-input[type="text"], input[type="password"], input[type="email"], textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-input[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-input[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-/* Lists */
-ul, ol {
-    margin-bottom: 15px;
-    padding-left: 20px;
-}
-
-/* Tables */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 15px;
-}
-
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-}
-
-th {
-    background-color: #f4f4f4;
-}
-
-/* Alerts */
-.alert {
-    padding: 15px;
-    margin-bottom: 15px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-
-.alert-info {
-    color: #0056b3;
-    background-color: #e9f5ff;
-    border-color: #b8daff;
-}
-
-.alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-}
-
-.alert-warning {
-    color: #856404;
-    background-color: #fff3cd;
-    border-color: #ffeeba;
-}
-
-.alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-}
-
 </style>
 </head>
 <body>
