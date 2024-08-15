@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>鸣谢</title>
+  <style>
+    #userMessage {
+      font-size: 16px; /* 调整字体大小 */
+      font-weight: bold; /* 将字体调粗 */
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>鸣谢列表：</h1>
+  </div>
+
+  <div>
+    <h2></h2>
+    <pre id="userMessage"></pre>
+  </div>
+
+  <script>
+    function displayText(text) {
+      var userMessage = document.getElementById('userMessage');
+      userMessage.innerHTML = text.replace(/\n/g, "<br>");
+    }
+    var userText = `@虚空神-大飞蛾(提供技术支持)
+@异心(提供技术帮助)`;
+    displayText(userText);
+  </script>
+</body>
+</html>
+  </script>
+</body>
+</html>

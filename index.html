@@ -3,31 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录</title>
-    <link rel="stylesheet" href="dlul2.css">
+    <title>登陆</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black; /* Set background color to black */
+            overflow: hidden; /* Hide scrollbars */
+        }
+        #video-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: black; /* Ensure container background is black */
+        }
+        video {
+            position: absolute;
+            top: 10;
+            left: 0;
+            width: 100%;
+            height: 29%;
+            object-fit: cover; /* Cover the container while maintaining aspect ratio */
+        }
+    </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-form">
-            <h1>登录</h1>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="username">用户名</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">密码</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit">登录</button>
-            </form>
-        </div>
+    <div id="video-container">
+        <video id="intro-video" autoplay muted>
+            <!-- Video source will be set by JavaScript -->
+            Your browser does not support the video tag.
+        </video>
     </div>
+
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form from submitting normally
-            window.location.href = 'index7.html'; // Redirect to index7.html
-        });
+        // Function to set video URL and handle redirection
+        function setupVideo() {
+            var videoElement = document.getElementById('intro-video');
+            
+            // URL of the video (replace with your actual video URL)
+            var videoUrl = 'https://s23.aconvert.com/convert/p3r68-cdx67/ygaqs-jkj4q-001.mp4';
+
+            // Set the video source
+            videoElement.src = videoUrl;
+
+            // Add event listener for when the video ends
+            videoElement.addEventListener('ended', function() {
+                window.location.href = 'index7.html'; // Redirect to index.html after video ends
+            });
+        }
+
+        // Set up video when the page loads
+        window.onload = setupVideo;
     </script>
 </body>
 </html>
@@ -111,52 +140,6 @@
 </body>
 </html>
   <br>
-  <br>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>跳转到文章页面</title>
-</head>
-<body>
-    <a href="index8.html">[注意事项]</a>
-</body>
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-  <title>鸣谢(均为QQ名):</title>
-  <style>
-    #userMessage {
-      font-size: 16px; /* 调整字体大小 */
-      font-weight: bold; /* 将字体调粗 */
-    }
-  </style>
-</head>
-<body>
-  <div>
-    <h1></h1>
-  </div>
-
-  <div>
-    <text>鸣谢(均为QQ名):</text>
-    <pre id="userMessage"></pre>
-  </div>
-
-  <script>
-    function displayText(text) {
-      var userMessage = document.getElementById('userMessage');
-      userMessage.innerHTML = text.replace(/\n/g, "<br>");
-    }
-    var userText = `@虚空神-大飞蛾(提供技术支持)
-@【无法显示！】(提供工具支持)
-@异心(提供技术帮助)`;
-    displayText(userText);
-  </script>
-</body>
-</html>
-  </script>
-</body>
-</html>
 <br>
 <!DOCTYPE html>
 <html lang="zh-CN">

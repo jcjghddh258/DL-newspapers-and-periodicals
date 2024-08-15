@@ -7,20 +7,21 @@ button {
   cursor: pointer;
 }
 
-#postContent {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
+button:hover {
+  background-color: #0056b3;
+}
+
+.post {
   border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;
+  padding: 10px;
   margin-bottom: 10px;
+  border-radius: 4px;
 }
 
 .main-content img,
 .main-content video {
-  max-width: 30%;
+  max-width: 70%;
   height: auto;
   display: block; /* 确保图片和视频以块级元素显示 */
-  margin-bottom: 8px; /* 可根据需要调整 */
+  margin-bottom: 15px; /* 可根据需要调整 */
 }

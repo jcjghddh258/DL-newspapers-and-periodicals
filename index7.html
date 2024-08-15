@@ -1,7 +1,43 @@
 <!DOCTYPE html>
-<div align="center">
-  <h1>DL报刊(1.9.13)</h1>
-</div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DL报刊1.9.14</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align:pull over;
+            margin: 50px;
+        }
+        #editable-title {
+            display: inline-block;
+            padding: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            outline: none;
+        }
+        #editable-title:focus {
+            background-color: #e0e0e0; /* Optional: change background color on focus */
+        }
+    </style>
+</head>
+<body>
+    <div id="title-container">
+        <h1 id="editable-title" contenteditable="true">DL报刊(1.9.14)</h1>
+    </div>
+
+    <script>
+        document.getElementById('editable-title').addEventListener('blur', function() {
+            var title = this.innerText.trim();
+            if (title === '') {
+                this.innerText = 'DL报刊(1.9.14)'; // Reset to default if empty
+            }
+        });
+    </script>
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +75,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DL报刊(1.9.13)</title>
+<title>DL报刊(1.9.14)</title>
 <style>
     body {
   font-family: Arial, sans-serif;
@@ -345,14 +381,57 @@ document.getElementById("changePage").addEventListener("click", function() {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multiple Hyperlinks Example</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>点击切换页面示例</title>
+<style>
+  /* 为整个页面设置全屏样式 */
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  /* 自定义链接的位置 */
+  .custom-link {
+    position: absolute; /* 允许使用绝对定位 */
+    top: 520px; /* 自定义Y坐标 */
+    left: 290px; /* 自定义X坐标 */
+    font-size: 18px; /* 字体大小 */
+    text-decoration: none; /* 去掉下划线 */
+    color: #007bff; /* 链接颜色 */
+  }
+
+  .custom-link:hover {
+    text-decoration: underline; /* 悬停时显示下划线 */
+  }
+</style>
 </head>
 <body>
-  <ul>
-<li><a href="index10.html">[切换到帖子分组区页面]</a></li>
-  </ul>
+
+<!-- 点击这个链接后将跳转到index5.html页面 -->
+<a class="custom-link" href="#">[鸣谢]</a>
+
+<script>
+document.querySelector(".custom-link").addEventListener("click", function() {
+  // 要跳转的页面文件名
+  var nextPage = "index11.html";
+  
+  // 执行页面重定向
+  window.location.href = nextPage;
+});
+</script>
+
+</body>
+</html>
+<br><li>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>跳转到文章页面</title>
+</head>
+<body>
+    <a href="index8.html">[注意事项]</a>
 </body>
 </html>
 <!DOCTYPE html>
@@ -372,7 +451,7 @@ document.getElementById("changePage").addEventListener("click", function() {
   // 在页面加载完成时设置点击事件监听
   window.addEventListener('load', function() {
     document.body.addEventListener('click', function() {
-      var audio = new Audio('file://storage/emulated/0/Download/MicrosoftEdgeDropFiles/Default/c35bf2af739244f79298396c16ccbedc%20(online-audio-converter.com).wav'); // 将 'HPPS' 替换为你的音频文件路径
+      var audio = new Audio('https://s17.aconvert.com/convert/p3r68-cdx67/d2gjn-7ucfs.wav'); // 将 'HPPS' 替换为你的音频文件路径
       audio.play();
       document.body.removeEventListener('click', arguments.callee); // 移除点击事件监听，确保只触发一次
     });
