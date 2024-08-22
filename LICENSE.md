@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2024 寰宇落/家
+Copyright (c) 2023 寰宇落/家
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
