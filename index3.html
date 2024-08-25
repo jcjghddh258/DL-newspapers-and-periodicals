@@ -1,96 +1,85 @@
 <!DOCTYPE html>
-<div align="center">
-  <h1>更多</h1>
-</div>
-<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>更多</title>
-</head>
-<body>
-    <button id="btn1" onclick="jumpToIndex1()">试试手气</button>
-    <button id="btn2" onclick="jumpToIndex2()">意见反馈</button>
-
-    <script>
-        function jumpToIndex1() {
-            window.location.href = 'index4.html';
-        }
-
-        function jumpToIndex2() {
-            window.location.href = 'feedback_form.html';
-        }
-        
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>跳转</title>
-</head>
-<body>
-    <button id="btn3" onclick="jumpToIndex3()">邮箱</button>
-    <button id="btn4" onclick="jumpToIndex4()">小游戏列表</button>
-    <button id="btn4" onclick="jumpToIndex5()">返回</button>
-        <script>
-        function jumpToIndex3() {
-            window.location.href = 'index2.html';
-        }
-
-        function jumpToIndex4() {
-            window.location.href = 'index9.html';
-        }
-        
-        function jumpToIndex5() {
-            window.location.href = 'index7.html';
-        }
-    </script>
-</body>
-</html>
-<br>
-<br>
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-    <a href="index8.html">[注意事项]</a>
-</body>
-</html>
-&nbsp;
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-    <a href="index11.html">[鸣谢]</a>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功能导航</title>
     <style>
-       canvas {
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e8eff1;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 8px 15px rgba(0,123,255,.2);
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 15px 25px rgba(0,123,255,.5);
+            transform: translateY(-2px);
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        canvas {
             position: fixed;
             top: 0;
             left: 0;
             pointer-events: none;
-            z-index: 999; /* 确保雪花在所有元素之上 */
+            z-index: -1; /* 背景层 */
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>功能导航</h1>
+        <button class="button" onclick="jumpTo('index4.html')">试试手气</button>
+        <button class="button" onclick="jumpTo('feedback_form.html')">意见反馈</button>
+        <button class="button" onclick="jumpTo('index2.html')">邮箱</button>
+        <button class="button" onclick="jumpTo('index9.html')">小游戏列表</button>
+        <button class="button" onclick="jumpTo('index7.html')">返回</button>
+        <p>点击下面的链接跳转到指定网站：</p>
+        <a href="https://www.tboxn.com/sitetag/windows">跳转到网站导航</a><br>
+        <a href="https://4kwallpapers.com/">跳转到壁纸网站(1)</a><br>
+        <a href="https://mbizhi.cheetahfun.com/sj/c2d/p2">跳转到壁纸网站(2)</a>
+    </div>
     <canvas id="snowCanvas"></canvas>
 
     <script>
+        function jumpTo(url) {
+            window.location.href = url;
+        }
+        // 雪花效果的JavaScript保持不变
         class Snowflake {
             constructor(x, y, speed, size) {
                 this.x = x || Math.random() * window.innerWidth;
