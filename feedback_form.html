@@ -5,78 +5,130 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>意见反馈表单</title>
-</head>
-<body>
-    <h1>请留下您的宝贵意见：</h1>
-    <form id="messageForm">
-        <label for="message">内容：</label>
-        <input type="text" id="message" name="message">
-        <button type="submit">反馈</button>
-    </form>
-
-    <iframe id="messageListFrame" src="feedback_list.html" style="display: none;"></iframe>
-
-<script>
-    const messageForm = document.getElementById('messageForm');
-    const messageListFrame = document.getElementById('messageListFrame');
-    const messageInput = document.getElementById('message');
-
-    messageForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const message = messageInput.value;
-
-        let messages = JSON.parse(localStorage.getItem('feedbackMessages')) || [];
-        messages.push(message);
-        localStorage.setItem('feedbackMessages', JSON.stringify(messages));
-
-        // 清空输入框并显示成功反馈
-        messageInput.value = '';
-        alert('感谢您的反馈！您的意见已经记录。');
-
-        // 刷新iframe中的反馈内容列表
-        messageListFrame.src = 'feedback_list.html';
-    });
-</script>
-
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>跳转到 index 页面示例</title>
-</head>
-<body>
-    <button id="btn1" onclick="jumpToIndex1()">返回</button>
-    <button id="btn2" onclick="jumpToIndex2()">表单(开发者可进)</button>
-
-    <script>
-        function jumpToIndex1() {
-            window.location.href = 'index7.html';
-        }
-
-        function jumpToIndex2() {
-            window.location.href = 'index7.html';
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            text-align: left;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 8px 15px rgba(0,123,255,.2);
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 15px 25px rgba(0,123,255,.5);
+            transform: translateY(-2px);
+        }
+        iframe {
+            display: none;
+        }
         canvas {
             position: fixed;
             top: 0;
             left: 0;
             pointer-events: none;
-            z-index: 999; /* 确保雪花在所有元素之上 */
+            z-index: 999;
         }
     </style>
 </head>
 <body>
     <canvas id="snowCanvas"></canvas>
+    <div class="container">
+        <h1>请留下您的宝贵意见：</h1>
+        <form id="messageForm">
+            <label for="message">内容：</label>
+            <input type="text" id="message" name="message">
+            <button type="submit">反馈</button>
+        </form>
+
+        <iframe id="messageListFrame" src="feedback_list.html"></iframe>
+    </div>
+
+    <script>
+        const messageForm = document.getElementById('messageForm');
+        const messageListFrame = document.getElementById('messageListFrame');
+        const messageInput = document.getElementById('message');
+
+        messageForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const message = messageInput.value;
+
+            let messages = JSON.parse(localStorage.getItem('feedbackMessages')) || [];
+            messages.push(message);
+            localStorage.setItem('feedbackMessages', JSON.stringify(messages));
+
+            // 清空输入框并显示成功反馈
+            messageInput.value = '';
+            alert('感谢您的反馈！您的意见已经记录。');
+
+            // 刷新iframe中的反馈内容列表
+            messageListFrame.src = 'feedback_list.html';
+        });
+    </script>
+
+    <!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>跳转到 index 页面示例</title>
+    </head>
+    <body>
+        <button id="btn1" onclick="jumpToIndex1()">返回</button>
+        <button id="btn2" onclick="jumpToIndex2()">表单(开发者可进)</button>
+
+        <script>
+            function jumpToIndex1() {
+                window.location.href = 'index.html';
+            }
+
+            function jumpToIndex2() {
+                window.location.href = 'index1.html';
+            }
+        </script>
+    </body>
+    </html>
 
     <script>
         class Snowflake {

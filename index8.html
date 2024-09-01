@@ -1,144 +1,70 @@
 <!DOCTYPE html>
-<div align="center">
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <h1>注意事项</h1>
-</div>
-<!DOCTYPE html>
-<html>
-<head>
-  <title>注意事项</title>
-  <style>
-    #userMessage {
-      font-size: 16px; /* 调整字体大小 */
-      font-weight: fine; /* 将字体调粗 */
-    }
-  </style>
-</head>
-<body>
-  <div>
-    <h1></h1>
-  </div>
-
-  <div>
-    <h2></h2>
-    <pre id="userMessage"></pre>
-  </div>
-
-  <script>
-    function displayText(text) {
-      var userMessage = document.getElementById('userMessage');
-      userMessage.innerHTML = text.replace(/\n/g, "<br>");
-    }
-    var userText = `1.本网站严禁禁止色情、低俗等不良内容，一
-旦发现，则给予警告，情节严重者将承担相应
-法律责任！
-
-2.本网站禁止侵权内容，若违反则按第一条惩罚
-处理
-
-3.DL报刊(任何版本)、其所有者、合作伙伴不对
-因使用或存在与本网站、其相关网站、内容、服务
-或基础设施而造成的任何损失、损害或伤害，否则
-后果自负
-
-4.未经我们许可，严禁将不良链接显示在网
-站内，若违反则按第一条惩罚处理
-
-5.本网站禁止做任何形式，任何方面的不良交
-易活动等违反法律和道德底线的活动，若违反则
-按第一条惩罚处理`;
-    displayText(userText);
-  </script>
-</body>
-</html>
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
 <html>
 <head>
     <title>注意事项</title>
-</head>
-<body>
-    <a href="index7.html">【若您愿意遵守以上条约，请点击本文字返回】</a>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-       canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 999; /* 确保雪花在所有元素之上 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+            text-align: left;
+        }
+        button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 8px 15px rgba(0,123,255,.2);
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 15px 25px rgba(0,123,255,.5);
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <canvas id="snowCanvas"></canvas>
-
+    <div class="container">
+        <h1>注意事项:</h1>
+        <p>1.本网站严禁禁止色情、低俗等不良内容，一旦发现，若没有意外，则前三次给予警告，超过三次则立即抹除登录信息，违反条款的主设备将无法进行登录(因为我们已经将您登录用的网络IP地址与您设备的专属设备号列入黑名单行列)；情节严重者将承担法律责任</p>
+        <p>2.本网站禁止侵权内容，若违反则按第一条惩罚处理</p>
+        <p>3.JM报刊(任何版本)、其所有者、雇员、承包商和合作伙伴不对因使用或存在与本网站、其相关网站、内容、服务或基础设施而造成的任何损失、损害或伤害，否则后果自负</p>
+        <p>4.未经我们许可，严禁将不良链接显示在网站内，若违反则按第一条惩罚处理</p>
+        <p>5.本网站禁止做任何形式，任何方面的不良交易活动等违反法律和道德底线的活动，若违反则按第一条惩罚处理</p>
+        <button onclick="jumpToIndex1()">返回</button>
+    </div>
     <script>
-        class Snowflake {
-            constructor(x, y, speed, size) {
-                this.x = x || Math.random() * window.innerWidth;
-                this.y = y || -Math.random() * 1000; // 雪花从顶部外开始
-                this.speed = speed || (Math.random() / 4 + 1); // 雪花下落速度
-                this.size = size || (Math.random() * 1 + 2); // 调整此处使得雪花稍微大一些
-                this.rotation = Math.random() * Math.PI * 2;
-            }
-
-            update() {
-                this.y += this.speed;
-                if (this.y > window.innerHeight) {
-                    this.y = -100;
-                    this.x = Math.random() * window.innerWidth;
-                }
-            }
-
-            draw(context) {
-                context.save();
-                context.translate(this.x, this.y);
-                context.rotate(this.rotation);
-                context.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                context.beginPath();
-                context.arc(0, 0, this.size, 0, Math.PI * 2);
-                context.closePath();
-                context.fill();
-                context.restore();
-            }
-        }
-
-        function initSnowfall() {
-            const canvas = document.getElementById('snowCanvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const snowflakes = [];
-            for (let i = 0; i < 100; i++) { // 根据需要调整雪花数量
-                snowflakes.push(new Snowflake());
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                snowflakes.forEach(snowflake => {
-                    snowflake.update();
-                    snowflake.draw(ctx);
-                });
-
-                requestAnimationFrame(animate);
-            }
-
-            animate();
-        }
-
-        window.addEventListener('load', initSnowfall);
-    </script>
+      function jumpToIndex1() {
+          window.location.href = 'index.html';
+      }
+  </script>
 </body>
 </html>

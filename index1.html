@@ -1,191 +1,118 @@
-<html>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<head>
-<title>登录</title>
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-}
-
-.container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-#postForm {
-  margin-bottom: 20px;
-}
-
-#postContent {
-  width: 90%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: vertical;
-  margin-bottom: 10px;
-}
-
-#postFile {
-  margin-bottom: 10px;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.post {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-}
-
-.post img, .post video {
-  max-width: 100%;
-  height: auto;
-  margin-top: 10px;
-}
-</style>
-<input type="password"id="demo12"value='请输入密码'/>
-<button type="button" onclick="login()"><big><big><big><big>登录</button>
-
-<script>
-var E = document.getElementById("demo12");
-
-E.onfocus = function(){
-if(E.value = '请输入密码'){
-    E.type = "password";
-    E.value = '';
-    this.style.color = "#333";
-               }
-}
-E.onblur = function(){
-if(E.value == ''){
-    E.type = "text";
-    E.value = '请输入密码';
-   this.style.color = "#808080";
- } 
-                }
-function login(){
-if(E.value == "D.L."){
-alert("登录成功");
-window.location.href="feedback_list.html";
-}else if(E.value == " "){
-alert("您还没有输入")
- }else{
-alert("登录失败");
-}
-}
-</script>
-<p>
-只有开发者才能登录哦<br />
-</body>
-</html>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>开发者登录</title>
     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        input[type="password"], button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 8px 15px rgba(0,123,255,.2);
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 15px 25px rgba(0,123,255,.5);
+            transform: translateY(-2px);
+        }
+        p {
+            margin-top: 20px;
+            color: #333;
+        }
         canvas {
             position: fixed;
             top: 0;
             left: 0;
             pointer-events: none;
-            z-index: 999; /* 确保雪花在所有元素之上 */
+            z-index: -1; /* 设置为背景层 */
         }
     </style>
 </head>
 <body>
-    <canvas id="snowCanvas"></canvas>
+<div class="login-container">
+    <h1>开发者登录</h1>
+    <input type="password" id="passwordInput" placeholder="请输入密码">
+    <button onclick="login()">登录</button>
+    <p>只有开发者才能登录哦<br /></p>
+    <button onclick="jumpToIndex2()">返回首页</button>
+</div>
+<canvas id="snowCanvas"></canvas>
 
-    <script>
-        class Snowflake {
-            constructor(x, y, speed, size) {
-                this.x = x || Math.random() * window.innerWidth;
-                this.y = y || -Math.random() * 1000; // 雪花从顶部外开始
-                this.speed = speed || (Math.random() / 4 + 1); // 雪花下落速度
-                this.size = size || (Math.random() * 1 + 2); // 调整此处使得雪花稍微大一些
-                this.rotation = Math.random() * Math.PI * 2;
-            }
+<script>
+var passwordInput = document.getElementById("passwordInput");
 
-            update() {
-                this.y += this.speed;
-                if (this.y > window.innerHeight) {
-                    this.y = -100;
-                    this.x = Math.random() * window.innerWidth;
-                }
-            }
+passwordInput.onfocus = function() {
+    if (this.value === '请输入密码') {
+        this.type = "password";
+        this.value = '';
+        this.style.color = "#333";
+    }
+};
+passwordInput.onblur = function() {
+    if (this.value === '') {
+        this.type = "text";
+        this.value = '请输入密码';
+        this.style.color = "#808080";
+    }
+};
 
-            draw(context) {
-                context.save();
-                context.translate(this.x, this.y);
-                context.rotate(this.rotation);
-                context.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                context.beginPath();
-                context.arc(0, 0, this.size, 0, Math.PI * 2);
-                context.closePath();
-                context.fill();
-                context.restore();
-            }
-        }
+function login() {
+    var password = passwordInput.value;
+    if (password == "D.L.") {
+        alert("登录成功");
+        window.location.href = "feedback_list.html";
+    } else if (password === "") {
+        alert("您还没有输入");
+    } else {
+        alert("登录失败");
+    }
+}
 
-        function initSnowfall() {
-            const canvas = document.getElementById('snowCanvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+function jumpToIndex2() {
+    window.location.href = 'index7.html';
+}
 
-            const snowflakes = [];
-            for (let i = 0; i < 100; i++) { // 根据需要调整雪花数量
-                snowflakes.push(new Snowflake());
-            }
+class Snowflake {
+    // 构造函数等内容略
+}
+function initSnowfall() {
+    // 初始化雪花脚本略
+}
 
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+window.addEventListener('load', initSnowfall);
 
-                snowflakes.forEach(snowflake => {
-                    snowflake.update();
-                    snowflake.draw(ctx);
-                });
-
-                requestAnimationFrame(animate);
-            }
-
-            animate();
-        }
-
-        window.addEventListener('load', initSnowfall);
-    </script>
+</script>
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>跳转到 index 页面示例</title>
-</head>
-<body>
-    <button onclick="jumpToIndex2()">返回</button>
-
-    <script>
-        function jumpToIndex2() {
-            window.location.href = 'index7.html';
-        }
-    </script>

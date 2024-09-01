@@ -1,125 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>贴吧分组区</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="container">
-    <div class="sidebar">
-      <h2>贴吧分组区列表</h2>
-      <ul id="groupList">
-        <!-- 分组列表将通过JavaScript动态生成 -->
-      </ul>
-      <div>
-        <input type="text" id="groupNameInput" placeholder="请输入吧名称">
-        <button onclick="createGroup()">创建贴吧</button>
-      </div>
-    </div>
-    <div class="main-content">
-      <div id="groupSpace">
-        <!-- 分组空间内容将通过JavaScript动态生成 -->
-      </div>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
-<br>
-<li>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>跳转</title>
-</head>
-<body>
-    <button id="btn3" onclick="jumpToIndex3()">更多</button>
-
-    <script>
-        function jumpToIndex3() {
-            window.location.href = 'index3.html';
-        }
-
-        function jumpToIndex4() {
-            window.location.href = 'index.html';
-        }
-    </script>
-</body>
-</html>
-<br>
-<br><li>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>点击切换页面示例</title>
-</head>
-<body>
-
-<!-- 点击这个链接后将跳转到index1.html页面 -->
-<a id="changePage" href="#">[切换到旧版]</a>
-
-<script>
-document.getElementById("changePage").addEventListener("click", function() {
-  // 要跳转的页面文件名
-  var nextPage = "index5.html";
-  
-  // 执行页面重定向
-  window.location.href = nextPage;
-});
-</script>
-
-</body>
-</html>
-<br>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multiple Hyperlinks Example</title>
-</head>
-<body>
-  <ul>
-<li><a href="index7.html">[跳转到到原页面]</a></li>
-  </ul>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贴吧分组区</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+        .sidebar {
+            border-right: 1px solid #ccc;
+        }
+
+        .main-content {
+            padding-left: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 8px;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 8px 15px rgba(0,123,255,.2);
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 15px 25px rgba(0,123,255,.5);
+            transform: translateY(-2px);
+        }
+        
         canvas {
             position: fixed;
             top: 0;
             left: 0;
             pointer-events: none;
-            z-index: 999; /* 确保雪花在所有元素之上 */
+            z-index: -1; /* Make sure the snow falls behind the content */
         }
     </style>
 </head>
 <body>
-    <canvas id="snowCanvas"></canvas>
+    <div class="container">
+        <div class="sidebar">
+            <h2>贴吧分组区列表</h2>
+            <ul id="groupList"></ul>
+            <div>
+                <input type="text" id="groupNameInput" placeholder="请输入吧名称">
+                <button onclick="createGroup()">创建贴吧</button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div id="groupSpace"></div>
+        </div>
+    </div>
 
+    <canvas id="snowCanvas"></canvas>
+    <script src="script.js"></script>
     <script>
+        // Place your existing JavaScript related to Snowflake effect here 
         class Snowflake {
             constructor(x, y, speed, size) {
                 this.x = x || Math.random() * window.innerWidth;
-                this.y = y || -Math.random() * 1000; // 雪花从顶部外开始
-                this.speed = speed || (Math.random() / 4 + 1); // 雪花下落速度
-                this.size = size || (Math.random() * 1 + 2); // 调整此处使得雪花稍微大一些
+                this.y = y || -Math.random() * 1000;
+                this.speed = speed || (Math.random() / 4 + 1);
+                this.size = size || (Math.random() * 1 + 2);
                 this.rotation = Math.random() * Math.PI * 2;
             }
-
+    
             update() {
                 this.y += this.speed;
                 if (this.y > window.innerHeight) {
@@ -127,7 +114,7 @@ document.getElementById("changePage").addEventListener("click", function() {
                     this.x = Math.random() * window.innerWidth;
                 }
             }
-
+    
             draw(context) {
                 context.save();
                 context.translate(this.x, this.y);
@@ -135,37 +122,36 @@ document.getElementById("changePage").addEventListener("click", function() {
                 context.fillStyle = 'rgba(255, 255, 255, 0.8)';
                 context.beginPath();
                 context.arc(0, 0, this.size, 0, Math.PI * 2);
-                context.closePath();
                 context.fill();
                 context.restore();
             }
         }
-
+    
         function initSnowfall() {
             const canvas = document.getElementById('snowCanvas');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-
+    
             const snowflakes = [];
-            for (let i = 0; i < 100; i++) { // 根据需要调整雪花数量
+            for (let i = 0; i < 100; i++) {
                 snowflakes.push(new Snowflake());
             }
-
+    
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    
                 snowflakes.forEach(snowflake => {
                     snowflake.update();
                     snowflake.draw(ctx);
                 });
-
+    
                 requestAnimationFrame(animate);
             }
-
+    
             animate();
         }
-
+    
         window.addEventListener('load', initSnowfall);
     </script>
 </body>

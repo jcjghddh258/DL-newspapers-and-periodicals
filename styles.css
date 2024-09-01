@@ -1,27 +1,7 @@
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.post {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-}
-
 .main-content img,
 .main-content video {
-  max-width: 70%;
+  max-width: 50%;
   height: auto;
   display: block; /* 确保图片和视频以块级元素显示 */
-  margin-bottom: 15px; /* 可根据需要调整 */
+  margin-bottom: 8px; /* 可根据需要调整 */
 }
